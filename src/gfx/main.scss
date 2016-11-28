@@ -1,0 +1,46 @@
+body {
+	box-sizing: border-box;
+	margin: 0;
+	$scale: 20px;
+	.game {
+		.background {
+			.row {
+				height: $scale;
+				.type {
+					display: inline-block;
+					background-color: lightblue;
+					width: $scale;
+					height: $scale;
+					margin: 0;
+					padding: 0;
+
+					&.wall {
+						background-color: white;
+					}
+
+					&.lava {
+						background-color: orangered;
+					}
+				}
+			}
+		}
+
+		.actors {
+			.actor {
+				position: absolute;
+
+				&.coin {
+					background-color: gold;
+				}
+
+				&.player {
+					background-color: black;
+				}
+
+				&.lava {
+					background-color: orange;
+				}
+			}
+		}
+	}
+}
