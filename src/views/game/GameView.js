@@ -64,7 +64,8 @@ export default class GameView extends Component {
 		if (status === 'lost') { // TODO forceupdate and setstate console warning
 			this.forceUpdate();
 		} else {
-			this.setState({ level: this.state.level + 1 });
+			// this.setState({ level: this.state.level + 1 });
+			this.forceUpdate();
 		}
 	}
 
