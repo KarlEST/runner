@@ -1,9 +1,24 @@
 body {
 	box-sizing: border-box;
+	border-spacing: 0;
 	margin: 0;
+	padding: 0;
+
 	$scale: 20px;
 	.game {
+
+		overflow: hidden;
+		max-width: 600px;
+		max-height: 450px;
+		position: relative;
+
 		.background {
+			background-color: lightblue;
+			table-layout: fixed;
+			border-spacing: 0;
+			td {
+				padding: 0;
+			}
 			.row {
 				height: $scale;
 				.type {
@@ -38,7 +53,7 @@ body {
 				}
 
 				&.lava {
-					background-color: orange;
+					background-color: orangered;
 				}
 			}
 		}

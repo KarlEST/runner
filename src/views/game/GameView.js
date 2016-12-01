@@ -1,83 +1,100 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
+import classnames from 'classnames';
 import { scale } from '../../config/constants';
+import { levels, test } from '../../config/levels';
+import Level from '../../game/Level';
+
+import Actors from '../../game/Actors';
 
 import './GameView.scss';
 
 @autobind
 export default class GameView extends Component {
 
-	static propTypes = {
-		level: React.PropTypes.object.isRequired,
-	};
-
 	state = {
-		test: 'test',
+		level: 0,
 	};
 
 	render() {
-		this.level = this.props.level;
+		const gameLevel = new Level({
+			plan: levels[this.state.level] || test,
+		});
+		this.level = gameLevel;
 		this.actorLayer = null;
-		console.log('status: ', this.level.status);
-		return (
-			<div className={"game "+(this.level.status || '')}>
-				{this.renderBackground(this.level)}
-				{this.renderFrame(this.level)}
+		const classname = classnames('game', { lost: gameLevel.status === 'lost' });
+		// this.scrollPlayerIntoView();
 
+
+		return (
+			<div className={classname}>
+				{this.renderBackground(gameLevel)}
+				<Actors level={gameLevel} andThen={this.handleFunc} scroll={this.scrollPlayerIntoView} />
 			</div>
-		)
+		);
 	}
 
 	renderBackground(level) {
-		return(
-			<div className="background">
-				{level.planGrid.map(row => this.renderBackgroundRow(row))}
-			</div>
+		return (
+			<table className="background" style={{ width: scale * this.level.width }}>
+				<tbody>
+					{level.planGrid.map(row => this.renderBackgroundRow(row))}
+				</tbody>
+			</table>
 		);
 	}
 
 	renderBackgroundRow(row) {
 		// TODO key for div-s
-		return(
-			<div className="row" key={Math.random()}>
+		return (
+			<tr className="row" key={Math.random()}>
 				{row.map(type => this.renderBackgroundType(type))}
-			</div>
+			</tr>
 		);
 	}
 
 	renderBackgroundType(type) {
-		const classname = type ? "type " + type : "type";
-		return(
-			<div className={classname} key={Math.random()} />
+		return (
+			<td className={type ? `type ${type}` : 'type'} key={Math.random()} />
 		);
 	}
 
-	renderFrame(level) {
-		if (this.actorLayer) {
 
+	handleFunc(status) {
+		if (status === 'lost') { // TODO forceupdate and setstate console warning
+			this.forceUpdate();
+		} else {
+			this.setState({ level: this.state.level + 1 });
 		}
-		return this.renderActors(level);
 	}
 
-	renderActors(level) {
+	scrollPlayerIntoView() {
+		this.wrap = document.getElementsByClassName('game')[0];
+		if (!this.wrap) {
+			return;
+		}
+		const width = this.wrap.clientWidth;
+		const height = this.wrap.clientHeight;
+		const margin = width / 3;
 
-		return (
-			<div className="actors">
-				{level.actors.map(actor => this.renderActor(actor))}
-			</div>
-		);
-	}
+		// The viewport
+		const left = this.wrap.scrollLeft;
+		const right = left + width;
+		const top = this.wrap.scrollTop;
+		const bottom = top + height;
 
-	renderActor(actor) {
-		const divStyle = {
-			width: actor.size.x * scale,
-			height: actor.size.y * scale,
-			left: actor.position.x * scale,
-			top: actor.position.y * scale,
-		};
+		const player = this.level.player;
+		const center = player.position.plus(player.size.x * 0.5, player.size.y * 0.5).times(scale);
 
-		return (
-			<div className={"actor "+actor.type} key={Math.random()} style={divStyle} />
-		);
+		if (center.x < left + margin) {
+			this.wrap.scrollLeft = center.x - margin;
+		} else if (center.x > right - margin) {
+			this.wrap.scrollLeft = center.x + margin - width;
+		}
+		if (center.y < top + margin) {
+			this.wrap.scrollTop = center.y - margin;
+		} else if (center.y > bottom - margin) {
+			this.wrap.scrollTop = center.y + margin - height;
+		}
 	}
 }

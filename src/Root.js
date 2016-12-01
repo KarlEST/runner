@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import HomeView from './views/home/HomeView';
 
-export default class Root extends React.Component {
+export default class Root extends Component {
 
 	render() {
 		return (
