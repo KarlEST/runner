@@ -3,11 +3,11 @@ import autobind from 'autobind-decorator';
 import { scale, step } from '../config/constants';
 
 @autobind
-export default class GameView extends Component {
+export default class Actors extends Component {
 
 	static propTypes = {
 		level: PropTypes.object.isRequired,
-		andThen: PropTypes.func.isRequired,
+		handleLevel: PropTypes.func.isRequired,
 		scroll: PropTypes.func.isRequired,
 	};
 
@@ -20,23 +20,14 @@ export default class GameView extends Component {
 	}
 
 	render() {
-		this.level = this.props.level;
-		if (this.level.status) {
-			this.props.andThen(this.level.status);
+		if (this.props.level.isFinished()) {
+			this.props.handleLevel(this.props.level.status);
 		}
 		this.props.scroll();
 
 		return (
 			<div className="actors">
-				{this.renderActors(this.level)}
-			</div>
-		);
-	}
-
-	renderActors(level) {
-		return (
-			<div className="actors">
-				{level.actors.map(actor => this.renderActor(actor))}
+				{this.props.level.actors.map(actor => this.renderActor(actor))}
 			</div>
 		);
 	}
@@ -50,11 +41,23 @@ export default class GameView extends Component {
 		};
 
 		return (
-			<div className={`actor ${actor.type}`} key={Math.random()} style={divStyle} />
+			<div
+				className={`actor ${actor.type} ${this.props.level.status || ''}`}
+				key={Math.random()}
+				style={divStyle}
+			/>
 		);
 	}
 
 	startAnimation() {
-		setInterval(() => { this.forceUpdate(); }, step * 1000);  // TODO window.requestAnimationFrame(callback);
+		setInterval(() => { this.animate(); }, step * 1000);  // TODO window.requestAnimationFrame(callback);
+	}
+
+	animate() {
+		this.props.level.actors.map(actor => actor.act(this.props.level, this.props.level.keys));
+		if (this.props.level.status !== null) {
+			this.props.level.finishDelay -= step;
+		}
+		this.forceUpdate();
 	}
 }

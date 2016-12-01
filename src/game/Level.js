@@ -2,7 +2,7 @@ import Position from './Position';
 import Lava from './Lava';
 import Coin from './Coin';
 import Player from './Player';
-import { step, arrowCodes } from '../config/constants';
+import { arrowCodes } from '../config/constants';
 
 export default class Level {
 
@@ -57,7 +57,11 @@ export default class Level {
 			}
 			this.planGrid.push(planGridLine);
 		}
-		setInterval(() => { this.actors.map((b) => b.act(this, this.keys)); }, step * 1000);
+		// setInterval(() => { this.actors.map((b) => b.act(this, this.keys)); }, step * 1000);
+	}
+
+	isFinished() {
+		return this.status !== null && this.finishDelay < 0;
 	}
 
 	obstacleAt(position, size) {
@@ -100,7 +104,7 @@ export default class Level {
 	playerTouched(type, actor) {
 		if (type === 'lava' && this.status === null) {
 			this.status = 'lost';
-			this.finishDelay = 1; // TODO add finish delay
+			this.finishDelay = 1;
 		} else if (type === 'coin') {
 			this.actors = this.actors.filter(other => other !== actor);
 			if (!this.actors.some(actor1 => actor1.type === 'coin')) {

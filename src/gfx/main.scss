@@ -50,6 +50,16 @@ body {
 
 				&.player {
 					background-color: black;
+
+					&.lost {
+						background-color: red;
+						box-shadow: -4px -7px 8px darkgrey, 4px -7px 8px darkgrey;
+					}
+
+					&.won {
+						//background-color: lightslategray;
+						box-shadow: -4px -7px 8px white, 4px -7px 8px white;
+					}
 				}
 
 				&.lava {
@@ -57,5 +67,7 @@ body {
 				}
 			}
 		}
+
+
 	}
 }

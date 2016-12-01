@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
+
+import Level from '../../game/Level';
+import Game from '../../game/Game';
 import { scale } from '../../config/constants';
 import { levels, test } from '../../config/levels';
-import Level from '../../game/Level';
 
-import Actors from '../../game/Actors';
-
-import './GameView.scss';
+import './GameHandlerView.scss';
 
 @autobind
-export default class GameView extends Component {
+export default class GameHandlerView extends Component {
 
 	state = {
 		level: 0,
@@ -20,52 +20,26 @@ export default class GameView extends Component {
 		const gameLevel = new Level({
 			plan: levels[this.state.level] || test,
 		});
+		const classname = classnames('gameContainer', {
+			lost: gameLevel.status === 'lost',
+			won: gameLevel.status === 'won',
+		});
 		this.level = gameLevel;
 		this.actorLayer = null;
-		const classname = classnames('game', { lost: gameLevel.status === 'lost' });
-		// this.scrollPlayerIntoView();
-
 
 		return (
 			<div className={classname}>
-				{this.renderBackground(gameLevel)}
-				<Actors level={gameLevel} andThen={this.handleFunc} scroll={this.scrollPlayerIntoView} />
+				<Game level={gameLevel} handleLevel={this.handleLevel} scroll={this.scrollPlayerIntoView} />
 			</div>
 		);
 	}
 
-	renderBackground(level) {
-		return (
-			<table className="background" style={{ width: scale * this.level.width }}>
-				<tbody>
-					{level.planGrid.map(row => this.renderBackgroundRow(row))}
-				</tbody>
-			</table>
-		);
-	}
-
-	renderBackgroundRow(row) {
-		// TODO key for div-s
-		return (
-			<tr className="row" key={Math.random()}>
-				{row.map(type => this.renderBackgroundType(type))}
-			</tr>
-		);
-	}
-
-	renderBackgroundType(type) {
-		return (
-			<td className={type ? `type ${type}` : 'type'} key={Math.random()} />
-		);
-	}
-
-
-	handleFunc(status) {
+	handleLevel(status) {
 		if (status === 'lost') { // TODO forceupdate and setstate console warning
 			this.forceUpdate();
-		} else {
-			// this.setState({ level: this.state.level + 1 });
-			this.forceUpdate();
+		} else if (this.state.level + 1 <= levels.length) {
+			this.setState({ level: this.state.level + 1 });
+			// this.forceUpdate();
 		}
 	}
 

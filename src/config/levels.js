@@ -27,10 +27,56 @@ export const levels =[
 		'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 		'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 	],
-
+	[
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x   @                                              x   ',
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x                                                  x   ',
+		'  x           o              o             o         x   ',
+		'  x                                                  x   ',
+		'  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x     x   ',
+		'                                               x  o  x   ',
+		'                                               x!   !x   ',
+		'                                               xxxxxxx   ',
+	],
 ];
 
-export const test = [
+export const test1 = [
 	'  x                                                  x   ',
 	'  x                                                  x   ',
 	'  x   @                                              x   ',
@@ -77,4 +123,16 @@ export const test = [
 	'                                               x!   !x   ',
 	'                                               xxxxxxx   ',
 ];
+
+export const test = [
+	'x!x                                                  x   ',
+	'x!x                                                  x   ',
+	'x!x                                                  x   ',
+	'x!x    !  @  o o                                     x   ',
+	'x!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   ',
+	'x!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!x   ',
+	'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ',
+
+];
+
 /* eslint-enable */
