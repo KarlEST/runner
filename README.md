@@ -10,11 +10,3 @@ Game is based on [Dark Blue](http://www.lessmilk.com/game/dark-blue/) by Thomas 
 * to start dev server `npm run dev`
     * visit [http://localhost:3000](http://localhost:3000)
 * linting `npm run lint`
-
-## Contribution
-If you are interested and want to take part in this small project:
-* Clone project
-* Make your changes
-* Lint your code: `npm run lint`
-* Create pull request
-
