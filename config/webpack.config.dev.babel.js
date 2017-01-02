@@ -6,6 +6,14 @@ import config from '../config/developer';
 const srcPath = path.resolve(__dirname, '..', 'src');
 const buildPath = path.resolve(__dirname, '..', 'build');
 
+// var phaserModule = path.resolve(__dirname, '..', 'node_modules', 'phaser');
+var phaserModulePath = path.resolve(__dirname, '..', 'node_modules', 'phaser');
+
+// var phaser = path.join(phaserModule, 'build/custom/phaser-split.js'),
+//     pixi = path.join(phaserModule, 'build/custom/pixi.js'),
+//     p2 = path.join(phaserModule, 'build/custom/p2.js');
+// console.log('TESTTTT--------------------------------');
+
 export default {
 	devtool: config.devtool || 'source-map',
 	entry: [
@@ -38,9 +46,20 @@ export default {
 			test: /\.(jpg|jpeg|gif|png|svg|woff|woff2)$/,
 			loader: `url?limit=1000000000&name=[path][name].[ext]&context=${__dirname}`,
 			exclude: /node_modules/,
-		}],
-	},
+		},   { test: /pixi\.js/, loader: 'expose?PIXI' },
+            { test: /phaser-split\.js$/, loader: 'expose?Phaser' },
+            { test: /p2\.js/, loader: 'expose?p2' },
+		],
 
+	},
+    resolve: {
+        alias: {
+            'phaser': path.join(phaserModulePath, 'build/custom/phaser-split.js'),
+            'pixi.js': path.join(phaserModulePath, 'build/custom/pixi.js'),
+            'p2': path.join(phaserModulePath, 'build/custom/p2.js')
+
+        }
+    },
 	plugins: [
 		new HtmlWebpackPlugin({
 			inject: true,
