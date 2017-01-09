@@ -9,6 +9,7 @@ import playerImg from './gfx/img/player.png';
 import wallImg from './gfx/img/wall.png';
 import coinImg from './gfx/img/coin.png';
 import lavaImg from './gfx/img/lava.png';
+import dudeImg from './gfx/img/dude.png';
 
 import './gfx/main.scss';
 
@@ -26,6 +27,7 @@ const mainState = {
 		game.load.image('wall', wallImg);
 		game.load.image('coin', coinImg);
 		game.load.image('lava', lavaImg);
+		game.load.spritesheet('dude', dudeImg, 32, 48, -1, 0, 0)
     },
 
     create: function() {
@@ -45,8 +47,10 @@ const mainState = {
 		this.cursor = game.input.keyboard.createCursorKeys();
 
         // Create the player in the middle of the game
-		this.player = game.add.sprite(70, 100, 'player');
-
+		this.player = game.add.sprite(70, 100, 'dude');
+		this.player.animations.add('left', [0, 1, 2, 3], 10, true);
+		this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+		this.player.scale.setTo(0.5, 0.5);
         // Add gravity to make it fall
 		// this.player.body.gravity.y = 600;
 		game.physics.arcade.gravity.y = 600;
@@ -63,7 +67,20 @@ const mainState = {
 			'x         o          x',
 			'x                    x',
 			'x     o   !    x     x',
-			'xxxxxxxxxxxxxxxx!!!!!x',
+			'xxxxxxxxxxxxxxxx     x',
+			'x                    x',
+			'x                    x',
+			'x     !   o  !   o   x',
+			'x   xxxxxxxxxxxxxxxxxx',
+			'x          o         x',
+			'x                    x',
+			'x  o                 x',
+			'xxxxxxxxxxxxxxx!!  !!x',
+			'x  !     !           x',
+			'x                    x',
+			'x                    x',
+			'x  o     !       !! ox',
+			'xxxxxxxxxxxxxxxxxxxxxx',
 		];
 
 		// Create the level by going through the array
@@ -110,10 +127,13 @@ const mainState = {
 		// Move the player when an arrow key is pressed
 		if (this.cursor.left.isDown) {
 			this.player.body.velocity.x = -200;
+			this.player.animations.play('left');
 		} else if (this.cursor.right.isDown) {
 			this.player.body.velocity.x = 200;
+			this.player.animations.play('right');
 		} else {
 			this.player.body.velocity.x = 0;
+			this.player.frame = 4;
 		}
 
 		// Make the player jump if he is touching the ground
@@ -133,6 +153,6 @@ const mainState = {
 	},
 };
 
-const game = new Phaser.Game(500, 200);
+const game = new Phaser.Game(800, 500);
 game.state.add('main', mainState);
 game.state.start('main');
