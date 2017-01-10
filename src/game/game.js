@@ -3,8 +3,9 @@ import 'pixi.js';
 import 'p2';
 import Phaser from 'phaser';
 
-import { testLevel } from '../config/levels';
+import {testLevel} from '../config/levels';
 import Player from './Player';
+import {LevelCreatorFactory} from './util/LevelCreatorFactory';
 
 import playerImg from '../gfx/img/player.png';
 import wallImg from '../gfx/img/wall.png';
@@ -14,7 +15,7 @@ import dudeImg from '../gfx/img/dude.png';
 
 
 const mainState = {
-    preload: function() {
+    preload: function () {
         // This function will be executed at the beginning
         // That's where we load the images and sounds
 
@@ -25,7 +26,7 @@ const mainState = {
         game.load.spritesheet('dude', dudeImg, 32, 48, -1, 0, 0)
     },
 
-    create: function() {
+    create: function () {
         // This function is called after the preload function
         // Here we set up the game, display sprites, etc.
 
@@ -47,39 +48,16 @@ const mainState = {
         this.player = new Player(game);
 
         // Create 3 groups that will contain our objects
+        // TODO Should we create these groups somewhere else or create them in another way
         this.walls = game.add.group();
         this.coins = game.add.group();
         this.enemies = game.add.group();
 
         const level = testLevel;
-
-        // Create the level by going through the array
-        for (let i = 0; i < level.length; i++) {
-            for (let j = 0; j < level[i].length; j++) {
-
-                // Create a wall and add it to the 'walls' group
-                if (level[i][j] === 'x') {
-                    const wall = game.add.sprite(30+20*j, 30+20*i, 'wall');
-                    this.walls.add(wall);
-                    wall.body.immovable = true;
-                }
-
-                // Create a coin and add it to the 'coins' group
-                else if (level[i][j] === 'o') {
-                    const coin = game.add.sprite(30+20*j, 30+20*i, 'coin');
-                    this.coins.add(coin);
-                }
-
-                // Create a enemy and add it to the 'enemies' group
-                else if (level[i][j] === '!') {
-                    const enemy = game.add.sprite(30+20*j, 30+20*i, 'lava');
-                    this.enemies.add(enemy);
-                }
-            }
-        }
+        LevelCreatorFactory.generateLevel(game, level, this.walls, this.coins, this.enemies);
     },
 
-    update:  function() {
+    update: function () {
         // This function is called 60 times per second
         // It contains the game's logic
         // Make the player and the walls collide
@@ -111,12 +89,12 @@ const mainState = {
     },
 
     // Function to kill a coin
-    takeCoin: function(player, coin) {
+    takeCoin: function (player, coin) {
         coin.kill();
     },
 
     // Function to restart the game
-    restart: function() {
+    restart: function () {
         game.state.start('main');
     },
 };
