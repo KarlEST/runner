@@ -4,7 +4,7 @@ import 'p2';
 import Phaser from 'phaser';
 
 import {testLevel} from '../config/levels';
-import Player from './Player';
+import Player from './characters/Player';
 import {LevelCreatorFactory} from './util/LevelCreatorFactory';
 
 import playerImg from '../gfx/img/player.png';
@@ -39,12 +39,7 @@ const mainState = {
         // Add the physics engine to all game objects
         game.world.enableBody = true;
 
-        // Variable to store the arrow key pressed
-        this.cursor = game.input.keyboard.createCursorKeys();
-
         // Create the player in the middle of the game
-        // this.player = game.add.sprite(130, 70, 'dude');
-
         this.player = new Player(game);
 
         // Create 3 groups that will contain our objects
@@ -66,24 +61,7 @@ const mainState = {
         // Call the 'takeCoin' function when the player takes a coin
         game.physics.arcade.overlap(this.player, this.coins, this.takeCoin, null, this);
 
-        // Move the player when an arrow key is pressed
-        if (this.cursor.left.isDown) {
-            this.player.body.velocity.x = -200;
-            this.player.animations.play('left');
-        } else if (this.cursor.right.isDown) {
-            this.player.body.velocity.x = 200;
-            this.player.animations.play('right');
-        } else {
-            this.player.body.velocity.x = 0;
-            this.player.frame = 4;
-        }
-
-        // Make the player jump if he is touching the ground
-        if (this.cursor.up.isDown && this.player.body.touching.down) {
-            this.player.body.velocity.y = -250;
-        }
         if (this.coins.countLiving() === 0) {
-
             this.restart();
         }
     },
