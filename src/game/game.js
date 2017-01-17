@@ -31,8 +31,8 @@ const mainState = {
 		this.walls = game.add.group();
 		this.coins = game.add.group();
 		this.enemies = game.add.group();
-		const level = testLevel;
-		LevelCreatorFactory.generateLevel(game, level, this.walls, this.coins, this.enemies);
+
+		LevelCreatorFactory.generateLevel(game, testLevel, this.walls, this.coins, this.enemies);
 	},
 
 	update() {
